@@ -2,17 +2,28 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="奶龙">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1d1d1f">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="images/app-icon-180.png">
   <title>奶龙 - nailongggggg.com</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px); }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
       background: #fff;
       color: #1d1d1f;
       -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
     }
-    /* Navigation */
+
+    /* Desktop Navigation (hidden on mobile) */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 999;
       background: rgba(0,0,0,0.92);
@@ -22,27 +33,61 @@
       height: 44px;
       display: flex; align-items: center; justify-content: center;
     }
-    nav .inner {
-      max-width: 980px; width: 100%;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    nav a {
-      color: rgba(255,255,255,0.8); text-decoration: none;
-      font-size: 12px; font-weight: 400; letter-spacing: 0.02em;
-      padding: 0 12px; transition: color 0.2s;
-    }
-    nav a:hover { color: #fff; }
+    nav .inner { max-width: 980px; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+    nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 12px; font-weight: 400; letter-spacing: 0.02em; padding: 0 12px; transition: color 0.2s; }
+    nav a:hover,
+    nav a:active { color: #fff; }
     nav .logo { font-size: 18px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
     nav .logo span { color: #f5a623; }
 
+    /* Mobile Bottom Tab Bar */
+    .tab-bar {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(29,29,31,0.97);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      padding: 4px 8px calc(4px + var(--safe-bottom));
+      justify-content: space-around;
+      align-items: flex-start;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .tab-bar a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 4px 0;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+      min-width: 48px;
+    }
+    .tab-bar a:active { color: #f5a623; }
+    .tab-bar a .tab-icon {
+      font-size: 20px;
+      line-height: 1;
+      display: block;
+    }
+    .tab-bar a.active { color: #f5a623; }
+
     /* Hero */
     .hero {
-      margin-top: 44px;
       background: #fafafa;
       text-align: center;
-      padding: 80px 20px 60px;
+      padding: 80px 24px 60px;
       overflow: hidden;
       position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     .hero::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
@@ -54,37 +99,26 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       margin-bottom: 12px;
     }
-    .hero h2 {
-      font-size: 28px; font-weight: 400; color: #86868b;
-      margin-bottom: 20px;
-    }
-    .hero p {
-      font-size: 17px; color: #6e6e73; max-width: 600px; margin: 0 auto 30px;
-      line-height: 1.6;
-    }
+    .hero h2 { font-size: 28px; font-weight: 400; color: #86868b; margin-bottom: 20px; }
+    .hero p { font-size: 17px; color: #6e6e73; max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
     .hero .cta {
       display: inline-block;
       background: linear-gradient(135deg, #f5a623, #ff6b6b);
-      color: #fff; padding: 12px 32px; border-radius: 980px;
+      color: #fff; padding: 14px 36px; border-radius: 980px;
       font-size: 17px; font-weight: 600; text-decoration: none;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .hero .cta:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 30px rgba(245,166,35,0.3);
+    .hero .cta:active {
+      transform: scale(0.96);
     }
+
     /* Sections */
     section {
-      padding: 80px 20px;
+      padding: 80px 24px;
       text-align: center;
     }
-    section.dark {
-      background: #1d1d1f;
-      color: #fff;
-    }
-    section.gray {
-      background: #f5f5f7;
-    }
+    section.dark { background: #1d1d1f; color: #fff; }
+    section.gray { background: #f5f5f7; }
     section h2 {
       font-size: 48px; font-weight: 600; letter-spacing: -0.003em;
       margin-bottom: 16px;
@@ -107,10 +141,7 @@
       transition: transform 0.3s, box-shadow 0.3s;
       cursor: default;
     }
-    .grid-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-    }
+    .grid-item:active { transform: scale(0.97); }
     .grid-item h4 { font-size: 20px; font-weight: 600; margin: 16px 0 8px; }
     .grid-item p { font-size: 14px; color: #6e6e73; line-height: 1.5; }
 
@@ -121,21 +152,18 @@
       text-align: left;
     }
     .feature-text { flex: 1; }
-    .feature-text h3 {
-      font-size: 32px; font-weight: 600; margin-bottom: 12px;
-      text-align: left; color: inherit;
-    }
+    .feature-text h3 { font-size: 32px; font-weight: 600; margin-bottom: 12px; text-align: left; color: inherit; }
     .feature-text p { font-size: 17px; color: #6e6e73; line-height: 1.6; }
     .feature-svg { flex: 1; text-align: center; }
 
     /* Footer */
     footer {
-      background: #f5f5f7; padding: 40px 20px;
+      background: #f5f5f7; padding: 40px 24px;
       text-align: center; font-size: 12px; color: #86868b;
       border-top: 1px solid #d2d2d7;
     }
     footer a { color: #515154; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+    footer a:active { text-decoration: underline; }
 
     /* Animations */
     .fade-in {
@@ -144,15 +172,38 @@
     }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-    /* Responsive */
+    /* ===== MOBILE (phone) ===== */
     @media (max-width: 768px) {
-      .hero h1 { font-size: 36px; }
+      /* Desktop nav hidden, tab bar shown */
+      nav { display: none; }
+      .tab-bar { display: flex; }
+
+      body { padding-bottom: 60px; }
+
+      .hero { padding: 60px 24px 40px; min-height: 100vh; margin-top: 0; }
+      .hero h1 { font-size: 40px; }
       .hero h2 { font-size: 20px; }
+      .hero p { font-size: 15px; }
+
+      section { padding: 60px 20px; }
       section h2 { font-size: 32px; }
-      .grid { grid-template-columns: 1fr; }
+      section h3 { font-size: 18px; margin-bottom: 28px; }
+
+      .grid { grid-template-columns: 1fr; gap: 16px; }
       .grid-2 { grid-template-columns: 1fr; }
-      .feature { flex-direction: column; gap: 30px; text-align: center; }
-      .feature-text h3 { text-align: center; }
+      .grid-item { padding: 28px 16px; }
+
+      .feature { flex-direction: column; gap: 24px; text-align: center; margin-top: 40px; }
+      .feature-text h3 { font-size: 24px; text-align: center; }
+      .feature-text p { font-size: 15px; }
+      .feature-text a { display: block; margin-left: auto; margin-right: auto; }
+
+      footer { padding: 32px 20px; }
+    }
+
+    /* ===== TABLET ===== */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -170,6 +221,15 @@
     </div>
   </div>
 </nav>
+
+<!-- Mobile Tab Bar -->
+<div class="tab-bar">
+  <a href="#overview"><span class="tab-icon">🏠</span>概览</a>
+  <a href="#stickers"><span class="tab-icon">😆</span>表情包</a>
+  <a href="#merch"><span class="tab-icon">🛍️</span>周边</a>
+  <a href="#wallpaper"><span class="tab-icon">🖼️</span>壁纸</a>
+  <a href="#support"><span class="tab-icon">💬</span>支持</a>
+</div>
 
 <!-- Hero -->
 <div class="hero" id="overview">
@@ -379,7 +439,7 @@
 </footer>
 
 <script>
-  // iOS-esque smooth scroll behavior
+  // Smooth scroll for all anchor links
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -387,18 +447,44 @@
       if (t) t.scrollIntoView({ behavior: 'smooth' });
     });
   });
+
+  // Tab bar active state
+  const tabs = document.querySelectorAll('.tab-bar a');
+  const sections = document.querySelectorAll('section, .hero');
+  function updateActiveTab() {
+    let current = '';
+    const scrollPos = window.scrollY + 120;
+    sections.forEach(s => {
+      const top = s.offsetTop;
+      const bot = top + s.offsetHeight;
+      if (scrollPos >= top && scrollPos < bot) current = s.id || current;
+    });
+    tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActiveTab, { passive: true });
+  window.addEventListener('load', updateActiveTab);
+
   // Fade-in observer
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) e.target.classList.add('visible');
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.15 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-  // Trigger for already visible
   document.querySelectorAll('.fade-in').forEach(el => {
     const rect = el.getBoundingClientRect();
     if (rect.top < window.innerHeight) el.classList.add('visible');
   });
+
+  // iOS full-screen: add safe-area padding to hero/top section
+  if (navigator.standalone) {
+    document.querySelector('.hero').style.paddingTop = 'calc(60px + var(--safe-top))';
+  }
+
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
 </script>
 </body>
 </html>
