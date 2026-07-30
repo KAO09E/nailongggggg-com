@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>奶龙 - nailongggggg.com</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+      background: #fff;
+      color: #1d1d1f;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Navigation */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      padding: 0 22px;
+      height: 44px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    nav .inner {
+      max-width: 980px; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    nav a {
+      color: rgba(255,255,255,0.8); text-decoration: none;
+      font-size: 12px; font-weight: 400; letter-spacing: 0.02em;
+      padding: 0 12px; transition: color 0.2s;
+    }
+    nav a:hover { color: #fff; }
+    nav .logo { font-size: 18px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+    nav .logo span { color: #f5a623; }
+
+    /* Hero */
+    .hero {
+      margin-top: 44px;
+      background: #fafafa;
+      text-align: center;
+      padding: 80px 20px 60px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #f5a623, #ff6b6b, #f5a623);
+    }
+    .hero h1 {
+      font-size: 56px; font-weight: 700; letter-spacing: -0.005em;
+      background: linear-gradient(135deg, #f5a623, #ff6b6b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .hero h2 {
+      font-size: 28px; font-weight: 400; color: #86868b;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 17px; color: #6e6e73; max-width: 600px; margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+    .hero .cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #f5a623, #ff6b6b);
+      color: #fff; padding: 12px 32px; border-radius: 980px;
+      font-size: 17px; font-weight: 600; text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .hero .cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px rgba(245,166,35,0.3);
+    }
+    /* Sections */
+    section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    section.dark {
+      background: #1d1d1f;
+      color: #fff;
+    }
+    section.gray {
+      background: #f5f5f7;
+    }
+    section h2 {
+      font-size: 48px; font-weight: 600; letter-spacing: -0.003em;
+      margin-bottom: 16px;
+    }
+    section.dark h2 { color: #fff; }
+    section h3 {
+      font-size: 24px; font-weight: 400; color: #86868b;
+      max-width: 700px; margin: 0 auto 40px; line-height: 1.5;
+    }
+    section.dark h3 { color: #a1a1a6; }
+
+    /* Grid */
+    .grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px; max-width: 980px; margin: 0 auto;
+    }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-item {
+      background: #fff; border-radius: 18px; padding: 40px 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+    .grid-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    .grid-item h4 { font-size: 20px; font-weight: 600; margin: 16px 0 8px; }
+    .grid-item p { font-size: 14px; color: #6e6e73; line-height: 1.5; }
+
+    /* Feature */
+    .feature {
+      display: flex; align-items: center; justify-content: center;
+      gap: 60px; max-width: 980px; margin: 60px auto 0;
+      text-align: left;
+    }
+    .feature-text { flex: 1; }
+    .feature-text h3 {
+      font-size: 32px; font-weight: 600; margin-bottom: 12px;
+      text-align: left; color: inherit;
+    }
+    .feature-text p { font-size: 17px; color: #6e6e73; line-height: 1.6; }
+    .feature-svg { flex: 1; text-align: center; }
+
+    /* Footer */
+    footer {
+      background: #f5f5f7; padding: 40px 20px;
+      text-align: center; font-size: 12px; color: #86868b;
+      border-top: 1px solid #d2d2d7;
+    }
+    footer a { color: #515154; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .hero h2 { font-size: 20px; }
+      section h2 { font-size: 32px; }
+      .grid { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .feature { flex-direction: column; gap: 30px; text-align: center; }
+      .feature-text h3 { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="#overview" class="logo">奶龙<span>.com</span></a>
+    <div>
+      <a href="#overview">概览</a>
+      <a href="#stickers">表情包</a>
+      <a href="#merch">周边</a>
+      <a href="#wallpaper">壁纸</a>
+      <a href="#support">支持</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero" id="overview">
+  <h1>奶龙</h1>
+  <h2>治愈系顶流 · 快乐小黄龙</h2>
+  <p>来自小红书的国民表情包明星，以呆萌可爱、搞笑治愈的形象风靡全网。奶龙陪你每一天，让快乐变得简单。</p>
+  <a href="#stickers" class="cta">发现更多</a>
+  <div>
+    <img src="images/ugly_1.jpg" alt="抽象奶龙" style="max-width:360px;width:100%;height:auto;border-radius:24px;box-shadow:0 20px 60px rgba(245,166,35,0.25);">
+  </div>
+</div>
+
+<!-- Section 1: 表情包 -->
+<section class="gray fade-in" id="stickers">
+  <h2>表情包合集</h2>
+  <h3>全网最火的表情包明星，从小红书火遍全网，每一张都是快乐源泉</h3>
+  <div class="grid">
+    <div class="grid-item">
+      <img src="images/ugly_10.jpg" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>瞪眼张嘴</h4>
+      <p>瞪大双眼张嘴超夸张，抽象到没边</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_12.jpg" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>西装吐舌</h4>
+      <p>黄色搞怪表情配西装，滑稽又抽象</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_14.webp" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>胡子眼镜</h4>
+      <p>奶龙化身胡子眼镜叔，丑出天际</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_15.jpg" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>邪恶变异</h4>
+      <p>邪恶抽象变异奶龙，看了睡不着</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_3.gif" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>吐舌卖萌</h4>
+      <p>吐舌卖萌表情滑稽，又丑又爱看</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_5.gif" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>眯眼坏笑</h4>
+      <p>眯眼露齿笑，表情魔性到洗脑</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: 奶龙日常 -->
+<section class="dark fade-in">
+  <h2>奶龙日常</h2>
+  <h3>一天不看奶龙就浑身难受，快来感受这份快乐</h3>
+  <div class="grid">
+    <div class="grid-item">
+      <img src="images/ugly_6.gif" alt="抽象奶龙" style="width:140px;height:auto;border-radius:12px;">
+      <h4>超凶瞪眼</h4>
+      <p>凶巴巴的可爱玩偶，瞪大红色双眼</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_7.gif" alt="抽象奶龙" style="width:140px;height:auto;border-radius:12px;">
+      <h4>双眼冒火</h4>
+      <p>呆萌角色双眼冒火，丑得离谱</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_2.gif" alt="抽象奶龙" style="width:140px;height:auto;border-radius:12px;">
+      <h4>流口水</h4>
+      <p>吐舌流口水，一旁男孩都看呆了</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: 周边 -->
+<section class="dark fade-in" id="merch">
+  <h2>抽象周边</h2>
+  <h3>丑到极致就是潮，奶龙周边产品线全面抽象化</h3>
+  <div class="grid">
+    <div class="grid-item">
+      <img src="images/ugly_13.gif" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>奶龙嚣张T恤</h4>
+      <p>"神爹奶龙"限量版，穿上就是整条街最抽象的仔</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_9.gif" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>奶龙抽象挂件</h4>
+      <p>小猪头戴王冠版挂件，挂在包上丑萌丑萌的</p>
+    </div>
+    <div class="grid-item">
+      <img src="images/ugly_11.gif" alt="抽象奶龙" style="width:160px;height:auto;border-radius:16px;">
+      <h4>奶龙嗝~毛绒</h4>
+      <p>嘴巴大张配文"嗝~"，抱着睡觉做噩梦</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: 壁纸 -->
+<section class="gray fade-in" id="wallpaper">
+  <h2>抽象壁纸</h2>
+  <h3>换上奶龙抽象壁纸，让你的手机也成为抽象艺术品</h3>
+  <div class="feature">
+    <div class="feature-svg">
+      <img src="images/ugly_11.gif" alt="抽象壁纸" style="max-width:240px;width:100%;height:auto;border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,0.1);">
+    </div>
+    <div class="feature-text">
+      <h3>奶龙 · 嗝~ 壁纸</h3>
+      <p>嘴巴大张的抽象奶龙，配文"嗝~"，让你的手机屏幕充满魔性。每次解锁都能收获快乐（或惊吓）。</p>
+      <a href="#" style="display:inline-block;margin-top:16px;background:linear-gradient(135deg,#f5a623,#ff6b6b);color:#fff;padding:10px 24px;border-radius:980px;font-size:15px;font-weight:600;text-decoration:none;">下载壁纸</a>
+    </div>
+  </div>
+  <div class="feature" style="flex-direction:row-reverse;">
+    <div class="feature-svg">
+      <img src="images/ugly_13.gif" alt="抽象壁纸" style="max-width:240px;width:100%;height:auto;border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,0.1);">
+    </div>
+    <div class="feature-text">
+      <h3>奶龙 · 嚣张壁纸</h3>
+      <p>奶龙嚣张放话版抽象壁纸，神爹奶龙操飞烂蛆上天。这壁纸一般人hold不住，敢用才是真勇士。</p>
+      <a href="#" style="display:inline-block;margin-top:16px;background:linear-gradient(135deg,#f5a623,#ff6b6b);color:#fff;padding:10px 24px;border-radius:980px;font-size:15px;font-weight:600;text-decoration:none;">下载壁纸</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: 支持 -->
+<section class="dark fade-in" id="support">
+  <h2>支持我们</h2>
+  <h3>喜欢抽象奶龙？加入我们的抽象大军</h3>
+  <div class="grid">
+    <div class="grid-item">
+      <h4 style="font-size:32px;color:#f5a623;margin:0;">🐧</h4>
+      <h4 style="margin-top:12px">QQ频道</h4>
+      <p>加入奶龙表情包频道<br>21.6万抽象成员在线</p>
+    </div>
+    <div class="grid-item">
+      <h4 style="font-size:32px;color:#f5a623;margin:0;">📱</h4>
+      <h4 style="margin-top:12px">抖音</h4>
+      <p>关注奶龙抽象表情包<br>每日更新抽象二创</p>
+    </div>
+    <div class="grid-item">
+      <h4 style="font-size:32px;color:#f5a623;margin:0;">💬</h4>
+      <h4 style="margin-top:12px">反馈建议</h4>
+      <p>有更抽象的奶龙图？<br>欢迎投稿分享</p>
+    </div>
+  </div>
+  <div style="max-width:500px;margin:40px auto 0;text-align:center;">
+    <p style="color:#a1a1a6;font-size:15px;line-height:1.6;">抽象奶龙由全网网友二创共同打造<br>每一张丑图都是爱的表达</p>
+    <a href="#" style="display:inline-block;margin-top:20px;background:linear-gradient(135deg,#f5a623,#ff6b6b);color:#fff;padding:12px 32px;border-radius:980px;font-size:17px;font-weight:600;text-decoration:none;">加入抽象创作</a>
+  </div>
+</section>
+
+<!-- Section 6: Features -->
+<section class="gray fade-in">
+  <h2>更多精彩</h2>
+  <h3>从表情包到周边，奶龙已经渗透到生活的每个角落</h3>
+  <div class="feature">
+    <div class="feature-svg">
+      <img src="images/ugly_4.gif" alt="抽象奶龙" style="max-width:280px;width:100%;height:auto;border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,0.1);">
+    </div>
+    <div class="feature-text">
+      <h3>抽象奶龙 · 墨镜大佬</h3>
+      <p>红色抽象版奶龙戴上墨镜，摆出最拽的造型。从呆萌到抽象，奶龙的进化之路让人措手不及。越看越上头，越看越离谱。</p>
+    </div>
+  </div>
+  <div class="feature" style="flex-direction: row-reverse;">
+    <div class="feature-svg">
+      <img src="images/ugly_8.gif" alt="抽象奶龙" style="max-width:240px;width:100%;height:auto;border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,0.1);">
+    </div>
+    <div class="feature-text">
+      <h3>抽象奶龙 · 军帽出击</h3>
+      <p>戴着军帽一脸严肃，请求总部支援！抽象奶龙的二创已经疯到连军帽都戴上了，丑得离谱但莫名好笑。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section 7: Stats -->
+<section class="dark fade-in">
+  <h2>奶龙数据</h2>
+  <h3>这组数据，让所有表情包都羡慕</h3>
+  <div class="grid">
+    <div class="grid-item">
+      <h4 style="font-size:48px;color:#f5a623;margin:0;">100亿+</h4>
+      <p>全网表情包发送量</p>
+    </div>
+    <div class="grid-item">
+      <h4 style="font-size:48px;color:#f5a623;margin:0;">5000万+</h4>
+      <p>小红书话题浏览量</p>
+    </div>
+    <div class="grid-item">
+      <h4 style="font-size:48px;color:#f5a623;margin:0;">99.9%</h4>
+      <p>看到就忍不住存图率</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p style="font-size:13px;color:#515154;margin-bottom:8px;">奶龙 Nai Long · nailongggggg.com</p>
+  <p>奶龙 Nai Long ™ &nbsp;|&nbsp; 灵感来源于小红书 · 全网最火表情包IP</p>
+  <p style="margin-top:8px">
+    <a href="#">隐私政策</a> &nbsp;·&nbsp;
+    <a href="#">使用条款</a> &nbsp;·&nbsp;
+    <a href="#">联系我们</a>
+  </p>
+  <p style="margin-top:12px;color:#a1a1a6;font-size:11px;line-height:1.6;max-width:600px;margin-left:auto;margin-right:auto;">
+    本网站仅供娱乐，不存在任何商业行为。网站内容来源于网络公开素材，如有侵权请联系删除。
+  </p>
+  <p style="margin-top:8px">Copyright &copy; 2026 nailongggggg.com. All rights reserved.</p>
+</footer>
+
+<script>
+  // iOS-esque smooth scroll behavior
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+  // Fade-in observer
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  // Trigger for already visible
+  document.querySelectorAll('.fade-in').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('visible');
+  });
+</script>
+</body>
+</html>
